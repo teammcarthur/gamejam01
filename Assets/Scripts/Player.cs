@@ -1,16 +1,14 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    int inputX;
-    public int defSpeed;
+    int inputX, inputY;
+    public int defSpeed, dashSpeed, climbSpeedX, climbSpeedY;
     float speed;
-    public int dashSpeed;
     public float dashSlow;
-    bool isGrounded, isDashing = false;
-    public float CT;
-    float TLG; // Time left ground
+    bool isGrounded, isDashing, isClimbing, canDash = false;
     [SerializeField] Rigidbody2D rb;
 
     void Update()
@@ -18,6 +16,7 @@ public class Player : MonoBehaviour
         GetInput();
         Jump();
         Dash();
+        Restart();
     }
 
     private void FixedUpdate()
@@ -33,6 +32,10 @@ public class Player : MonoBehaviour
         {
             inputX = (Keyboard.current.dKey.isPressed ? 1 : 0) + (Keyboard.current.aKey.isPressed ? -1 : 0); // Left & Right movement
         }
+        if (isClimbing && !isDashing)
+        {
+            inputY = (Keyboard.current.wKey.isPressed ? 1 : 0) + (Keyboard.current.sKey.isPressed ? -1 : 0); // Up and down movement - on vines
+        }
     }
 
     void Move()
@@ -42,9 +45,15 @@ public class Player : MonoBehaviour
             rb.gravityScale = 0;
             rb.linearVelocityY = 0;
         }
-        else
+        else if (!isClimbing)
         {
             rb.gravityScale = 3;
+        }
+        else if (isClimbing)
+        {
+            speed = climbSpeedX;
+            rb.gravityScale = 0;
+            rb.linearVelocityY = inputY * climbSpeedY * Time.fixedDeltaTime * 100; // Up & Down movement - Climbing vines
         }
         rb.linearVelocityX = inputX * speed * Time.fixedDeltaTime * 100; // Left & Right movement
     }
@@ -61,10 +70,11 @@ public class Player : MonoBehaviour
 
     void Dash()
     {
-        if (Keyboard.current.shiftKey.wasPressedThisFrame && !isDashing && inputX != 0)
+        if (Keyboard.current.shiftKey.wasPressedThisFrame && !isDashing && inputX != 0 && canDash)
         {
             speed = dashSpeed;
             isDashing = true;
+            canDash = false;
         }
     }
 
@@ -81,19 +91,40 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnCollisionStay2D(Collision2D collision)
+    void Restart()
+    {
+        if (Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+    }
+
+    void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = true;
+            canDash = true;
         }
     }
 
-    //void OnCollisionExit2D(Collision2D collision)
-    //{
-    //    if (collision.gameObject.CompareTag("Ground"))
-    //    {
-    //        isGrounded = false;
-    //    }
-    //}
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Vines"))
+        {
+            isClimbing = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Vines"))
+        {
+            isClimbing = false;
+        }
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
+        }
+    }
 }
