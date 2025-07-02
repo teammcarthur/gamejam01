@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Ground
+  - Vines
   layers:
   - Default
   - TransparentFX
@@ -39,6 +40,18 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Player
+    uniqueID: 2026282735
+    locked: 0
+  - name: Ground
+    uniqueID: 2367766485
+    locked: 0
+  - name: Vines
+    uniqueID: 755304317
+    locked: 0
+  - name: Decor
+    uniqueID: 1943887927
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
-    int input;
+    int inputX;
     public int defSpeed;
     float speed;
     public int dashSpeed;
@@ -12,11 +12,6 @@ public class Player : MonoBehaviour
     public float CT;
     float TLG; // Time left ground
     [SerializeField] Rigidbody2D rb;
-
-    void Start()
-    {
-        
-    }
 
     void Update()
     {
@@ -34,12 +29,24 @@ public class Player : MonoBehaviour
 
     void GetInput()
     {
-        input = (Keyboard.current.dKey.isPressed ? 1 : 0) + (Keyboard.current.aKey.isPressed ? -1 : 0); // Left & Right movement
+        if (!isDashing)
+        {
+            inputX = (Keyboard.current.dKey.isPressed ? 1 : 0) + (Keyboard.current.aKey.isPressed ? -1 : 0); // Left & Right movement
+        }
     }
 
     void Move()
     {
-        rb.linearVelocityX = input * speed * Time.fixedDeltaTime * 100; // Left & Right movement
+        if (isDashing)
+        {
+            rb.gravityScale = 0;
+            rb.linearVelocityY = 0;
+        }
+        else
+        {
+            rb.gravityScale = 3;
+        }
+        rb.linearVelocityX = inputX * speed * Time.fixedDeltaTime * 100; // Left & Right movement
     }
 
     void Jump()
@@ -54,7 +61,7 @@ public class Player : MonoBehaviour
 
     void Dash()
     {
-        if (Keyboard.current.shiftKey.wasPressedThisFrame && !isDashing)
+        if (Keyboard.current.shiftKey.wasPressedThisFrame && !isDashing && inputX != 0)
         {
             speed = dashSpeed;
             isDashing = true;
@@ -74,7 +81,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
@@ -82,11 +89,11 @@ public class Player : MonoBehaviour
         }
     }
 
-    void OnCollisionExit2D(Collision2D collision)
-    {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
-        }
-    }
+    //void OnCollisionExit2D(Collision2D collision)
+    //{
+    //    if (collision.gameObject.CompareTag("Ground"))
+    //    {
+    //        isGrounded = false;
+    //    }
+    //}
 }
