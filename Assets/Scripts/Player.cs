@@ -5,6 +5,9 @@ public class Player : MonoBehaviour
 {
     int input;
     public int speed;
+    bool grounded;
+    public float CT;
+    float TLG; // Time left ground
     [SerializeField] Rigidbody2D rb;
 
     void Start()
@@ -35,9 +38,27 @@ public class Player : MonoBehaviour
 
     void Jump()
     {
-        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        
+        if (Keyboard.current.spaceKey.isPressed && grounded)
         {
             rb.linearVelocityY = 10;
+            grounded = false;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            grounded = true;
+        }
+    }
+
+    void OnCollisionExit2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            grounded = false;
         }
     }
 }
