@@ -4,8 +4,11 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour
 {
     int input;
-    public int speed;
-    bool grounded;
+    public int defSpeed;
+    float speed;
+    public int dashSpeed;
+    public float dashSlow;
+    bool isGrounded, isDashing = false;
     public float CT;
     float TLG; // Time left ground
     [SerializeField] Rigidbody2D rb;
@@ -19,16 +22,19 @@ public class Player : MonoBehaviour
     {
         GetInput();
         Jump();
+        Dash();
     }
 
     private void FixedUpdate()
     {
+        DashSlow();
         Move();
+        DashSlow();
     }
 
     void GetInput()
     {
-        input = (Keyboard.current.dKey.isPressed? 1 : 0) + (Keyboard.current.aKey.isPressed ? -1 : 0); // Left & Right movement
+        input = (Keyboard.current.dKey.isPressed ? 1 : 0) + (Keyboard.current.aKey.isPressed ? -1 : 0); // Left & Right movement
     }
 
     void Move()
@@ -39,10 +45,32 @@ public class Player : MonoBehaviour
     void Jump()
     {
         
-        if (Keyboard.current.spaceKey.isPressed && grounded)
+        if (Keyboard.current.spaceKey.isPressed && isGrounded)
         {
             rb.linearVelocityY = 10;
-            grounded = false;
+            isGrounded = false;
+        }
+    }
+
+    void Dash()
+    {
+        if (Keyboard.current.shiftKey.wasPressedThisFrame && !isDashing)
+        {
+            speed = dashSpeed;
+            isDashing = true;
+        }
+    }
+
+    void DashSlow()
+    {
+        if (isDashing)
+        {
+            speed -= dashSlow * Time.fixedDeltaTime * 10;
+        }
+        if (speed < defSpeed)
+        {
+            isDashing = false;
+            speed = defSpeed;
         }
     }
 
@@ -50,7 +78,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            grounded = true;
+            isGrounded = true;
         }
     }
 
@@ -58,7 +86,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            grounded = false;
+            isGrounded = false;
         }
     }
 }
