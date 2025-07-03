@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class Player : MonoBehaviour
 {
-    int inputX, inputY;
+    int inputX, inputY, paintCollected;
     public int defSpeed, dashSpeed, climbSpeedX, climbSpeedY;
     float speed;
     public float dashSlow;
@@ -12,17 +12,11 @@ public class Player : MonoBehaviour
     [SerializeField] Rigidbody2D rb;
     [SerializeField] Animator animator;
     [SerializeField] SpriteRenderer sprite;
-    Vector2 startingPos;
+    Vector2 spawnPos;
 
     void Awake()
     {
-        startingPos = transform.position;
-    }
-    Vector2 startingPos;
-
-    void Awake()
-    {
-        startingPos = transform.position;
+        spawnPos = transform.position;
     }
 
     void Update()
@@ -31,6 +25,7 @@ public class Player : MonoBehaviour
         Jump();
         Dash();
         Restart();
+        Animate();
     }
 
     private void FixedUpdate()
@@ -70,27 +65,6 @@ public class Player : MonoBehaviour
             rb.linearVelocityY = inputY * climbSpeedY * Time.fixedDeltaTime * 100; // Up & Down movement - Climbing vines
         }
         rb.linearVelocityX = inputX * speed * Time.fixedDeltaTime * 100; // Left & Right movement
-
-        if (rb.linearVelocityX == 0)
-        {
-            animator.SetTrigger("Stand");
-        }
-        else
-        {
-            animator.SetTrigger("Run");
-        }
-
-        if (rb.linearVelocityX > 0)
-        {
-            sprite.flipX = true;
-        }
-        else
-        {
-            if (rb.linearVelocityX < 0)
-            {
-                sprite.flipX = false;
-            }
-        }
     }
 
     void Jump()
@@ -127,6 +101,30 @@ public class Player : MonoBehaviour
         }
     }
 
+    void Animate()
+    {
+        if (rb.linearVelocityX == 0)
+        {
+            animator.SetTrigger("Stand");
+        }
+        else
+        {
+            animator.SetTrigger("Run");
+        }
+
+        if (rb.linearVelocityX > 0)
+        {
+            sprite.flipX = true;
+        }
+        else
+        {
+            if (rb.linearVelocityX < 0)
+            {
+                sprite.flipX = false;
+            }
+        }
+    }
+
     void Restart()
     {
         if (Keyboard.current.rKey.wasPressedThisFrame)
@@ -153,7 +151,13 @@ public class Player : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Death"))
         {
-            transform.position = startingPos;
+            transform.position = spawnPos;
+        }
+        if (collision.gameObject.CompareTag("Paint"))
+        {
+            paintCollected += 1;
+            spawnPos = collision.gameObject.transform.position;
+            collision.gameObject.SetActive(false);
         }
     }
 
@@ -173,7 +177,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Death"))
         {
-            transform.position = startingPos;
+            transform.position = spawnPos;
         }
     }
 }

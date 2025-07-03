@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - Vines
+  - Death
+  - Paint
   layers:
   - Default
   - TransparentFX
