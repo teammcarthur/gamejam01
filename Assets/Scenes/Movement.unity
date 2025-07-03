@@ -156,7 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   defSpeed: 5
   dashSpeed: 25
-  climbSpeedX: 2
+  climbSpeedX: 3
   climbSpeedY: 3
   dashSlow: 4
   rb: {fileID: 22410157}

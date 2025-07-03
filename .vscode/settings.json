@@ -66,5 +66,5 @@
     "explorer.fileNesting.patterns": {
         "*.sln": "*.csproj"
     },
-    "dotnet.defaultSolution": "gamejam01.sln"
+    "dotnet.defaultSolution": "Colour Theif.sln"
 }

@@ -12,6 +12,18 @@ public class Player : MonoBehaviour
     [SerializeField] Rigidbody2D rb;
     [SerializeField] Animator animator;
     [SerializeField] SpriteRenderer sprite;
+    Vector2 startingPos;
+
+    void Awake()
+    {
+        startingPos = transform.position;
+    }
+    Vector2 startingPos;
+
+    void Awake()
+    {
+        startingPos = transform.position;
+    }
 
     void Update()
     {
@@ -88,6 +100,7 @@ public class Player : MonoBehaviour
         {
             rb.linearVelocityY = 10;
             isGrounded = false;
+            canDash = true;
         }
     }
 
@@ -136,6 +149,11 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Vines"))
         {
             isClimbing = true;
+            canDash = true;
+        }
+        if (collision.gameObject.CompareTag("Death"))
+        {
+            transform.position = startingPos;
         }
     }
 
@@ -148,6 +166,14 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))
         {
             isGrounded = false;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Death"))
+        {
+            transform.position = startingPos;
         }
     }
 }
