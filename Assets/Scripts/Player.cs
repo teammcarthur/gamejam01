@@ -144,6 +144,10 @@ public class Player : MonoBehaviour
             isGrounded = true;
             canDash = true;
         }
+        if (collision.gameObject.CompareTag("Vines") && !canDash)
+        {
+            canDash = true;
+        }
     }
 
     void OnTriggerEnter2D(Collider2D collision)
