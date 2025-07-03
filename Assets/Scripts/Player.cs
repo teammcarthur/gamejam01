@@ -167,7 +167,7 @@ public class Player : MonoBehaviour
             spawnPos = collision.gameObject.transform.position;
             collision.gameObject.SetActive(false);
         }
-        if (collision.gameObject.CompareTag("EndBox"))
+        if (collision.gameObject.CompareTag("EndBox") && paintCollected == 5)
         {
             SceneManager.LoadScene("EndCutscene");
         }
