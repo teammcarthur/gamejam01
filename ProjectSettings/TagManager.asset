@@ -57,6 +57,9 @@ TagManager:
   - name: Spikes
     uniqueID: 3367877971
     locked: 0
+  - name: Paint
+    uniqueID: 1277614793
+    locked: 0
   - name: Player
     uniqueID: 2026282735
     locked: 0
