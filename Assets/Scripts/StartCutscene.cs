@@ -16,6 +16,6 @@ public class StartCutscene : MonoBehaviour
     IEnumerator WaitForCutscene()
     {
         yield return new WaitForSeconds(48F);
-        SceneManager.LoadScene("NextScene");
+        SceneManager.LoadScene("Game Build");
     }
 }

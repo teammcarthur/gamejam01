@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
         GetInput();
         Jump();
         Dash();
-        Restart();
+        Restarting();
         Animate();
     }
 
@@ -125,11 +125,15 @@ public class Player : MonoBehaviour
         }
     }
 
-    void Restart()
+    void Restarting()
     {
-        if (Keyboard.current.rKey.wasPressedThisFrame)
+        if (Keyboard.current.yKey.wasPressedThisFrame)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        }
+        if (Keyboard.current.rKey.wasPressedThisFrame)
+        {
+            transform.position = spawnPos;
         }
     }
 
