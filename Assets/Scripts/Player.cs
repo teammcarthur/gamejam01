@@ -192,6 +192,7 @@ public class Player : MonoBehaviour
                 vines.pitch = 0.5f;
                 jump.volume = 0.7f;
                 dash.pitch = 0.5f;
+                death.pitch = 0.5f;
                 Music.Play();
             }
         }
