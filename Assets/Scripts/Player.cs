@@ -195,7 +195,7 @@ public class Player : MonoBehaviour
                 Music.resource = scaryMusic;
                 Music.volume = 0.75f;
                 jump.pitch = 0.2f;
-                vines.pitch = 0.2f;
+                vines.pitch = 0.5f;
                 jump.volume = 0.7f;
                 Music.Play();
             }
