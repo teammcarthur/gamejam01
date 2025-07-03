@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     [SerializeField] SpriteRenderer sprite;
     Vector2 spawnPos;
     public AudioResource scaryMusic;
-    public AudioSource Music, vines, jump, dash, collect;
+    public AudioSource Music, vines, jump, dash, collect, death;
 
     void Awake()
     {
@@ -141,14 +141,6 @@ public class Player : MonoBehaviour
         }
     }
 
-    void PlayClimbSound()
-    {
-        if (isClimbing && !vines.isPlaying)
-        {
-            vines.Play();
-        }
-    }
-
     void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -175,6 +167,7 @@ public class Player : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Death"))
         {
+            death.Play();
             transform.position = spawnPos;
         }
         if (collision.gameObject.CompareTag("Paint"))
@@ -219,6 +212,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Death"))
         {
+            death.Play();
             transform.position = spawnPos;
         }
     }
