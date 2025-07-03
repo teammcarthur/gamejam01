@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class Camera : MonoBehaviour
 {
     public float smoothMult, lookMult;
-    public Transform player;
+    public GameObject player;
     Vector3 targetPos, smoothedPos, offset;
     Vector2 inputNormal;
     int inputX, inputY;
@@ -28,7 +28,7 @@ public class Camera : MonoBehaviour
     {
         inputNormal = new Vector2(inputX, inputY).normalized;
         offset = new Vector3(inputNormal.x, inputNormal.y, 0) * lookMult;
-        targetPos = player.position + offset;
+        targetPos = player.transform.position + offset;
         smoothedPos = Vector3.Lerp(transform.position, targetPos, smoothMult);
         transform.position = smoothedPos + new Vector3 (0, 0, -10);
     }
