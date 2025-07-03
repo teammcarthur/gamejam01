@@ -9,6 +9,7 @@ TagManager:
   - Death
   - Paint
   - EndBox
+  - Music
   layers:
   - Default
   - TransparentFX

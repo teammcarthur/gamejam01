@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -13,7 +14,8 @@ public class Player : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] SpriteRenderer sprite;
     Vector2 spawnPos;
-    public AudioSource music;
+    public AudioResource scaryMusic;
+    public AudioSource Music, vines, jump, dash, collect;
 
     void Awake()
     {
@@ -138,6 +140,14 @@ public class Player : MonoBehaviour
         }
     }
 
+    void PlayClimbSound()
+    {
+        if (isClimbing && !vines.isPlaying)
+        {
+            vines.Play();
+        }
+    }
+
     void OnTriggerStay2D(Collider2D collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
@@ -148,6 +158,10 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Vines") && !canDash)
         {
             canDash = true;
+        }
+        if (isClimbing && !vines.isPlaying)
+        {
+            vines.Play();
         }
     }
 
@@ -164,6 +178,7 @@ public class Player : MonoBehaviour
         }
         if (collision.gameObject.CompareTag("Paint"))
         {
+            collect.Play();
             paintCollected += 1;
             spawnPos = collision.gameObject.transform.position;
             collision.gameObject.SetActive(false);
@@ -172,6 +187,14 @@ public class Player : MonoBehaviour
         {
             SceneManager.LoadScene("EndCutscene");
         }
+        if (collision.gameObject.CompareTag("Music"))
+        {
+            if (Music.resource != scaryMusic)
+            {
+                Music.resource = scaryMusic;
+                Music.Play();
+            }
+        }
     }
 
     void OnTriggerExit2D(Collider2D collision)
@@ -179,6 +202,7 @@ public class Player : MonoBehaviour
         if (collision.gameObject.CompareTag("Vines"))
         {
             isClimbing = false;
+            vines.Stop();
         }
         if (collision.gameObject.CompareTag("Ground"))
         {
