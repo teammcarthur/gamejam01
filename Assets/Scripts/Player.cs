@@ -10,6 +10,8 @@ public class Player : MonoBehaviour
     public float dashSlow;
     bool isGrounded, isDashing, isClimbing, canDash = false;
     [SerializeField] Rigidbody2D rb;
+    [SerializeField] Animator animator;
+    [SerializeField] SpriteRenderer sprite;
 
     void Update()
     {
@@ -56,6 +58,27 @@ public class Player : MonoBehaviour
             rb.linearVelocityY = inputY * climbSpeedY * Time.fixedDeltaTime * 100; // Up & Down movement - Climbing vines
         }
         rb.linearVelocityX = inputX * speed * Time.fixedDeltaTime * 100; // Left & Right movement
+
+        if (rb.linearVelocityX == 0)
+        {
+            animator.SetTrigger("Stand");
+        }
+        else
+        {
+            animator.SetTrigger("Run");
+        }
+
+        if (rb.linearVelocityX > 0)
+        {
+            sprite.flipX = true;
+        }
+        else
+        {
+            if (rb.linearVelocityX < 0)
+            {
+                sprite.flipX = false;
+            }
+        }
     }
 
     void Jump()
