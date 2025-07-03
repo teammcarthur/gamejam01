@@ -7,6 +7,7 @@ public class PlayButton : MonoBehaviour
     public void LoadGame()
     {
         Debug.Log("PlayButtonPressed");
-        SceneManager.LoadScene("Platfroms");
+        Debug.Log("ButtonPressed");
+        SceneManager.LoadScene("OpeningCutscene");
     }
 }
