@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     [SerializeField] Animator animator;
     [SerializeField] SpriteRenderer sprite;
     Vector2 spawnPos;
+    public AudioSource music;
 
     void Awake()
     {
