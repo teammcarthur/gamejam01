@@ -86,6 +86,7 @@ public class Player : MonoBehaviour
     {
         if (Keyboard.current.shiftKey.wasPressedThisFrame && !isDashing && inputX != 0 && canDash)
         {
+            dash.Play();
             speed = dashSpeed;
             isDashing = true;
             canDash = false;
