@@ -163,6 +163,10 @@ public class Player : MonoBehaviour
             spawnPos = collision.gameObject.transform.position;
             collision.gameObject.SetActive(false);
         }
+        if (collision.gameObject.CompareTag("EndBox"))
+        {
+            SceneManager.LoadScene("EndCutscene");
+        }
     }
 
     void OnTriggerExit2D(Collider2D collision)
