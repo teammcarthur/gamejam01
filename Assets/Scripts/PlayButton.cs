@@ -10,4 +10,9 @@ public class PlayButton : MonoBehaviour
         Debug.Log("ButtonPressed");
         SceneManager.LoadScene("OpeningCutscene");
     }
+
+    public void Quit()
+    {
+        Application.Quit();
+    }
 }

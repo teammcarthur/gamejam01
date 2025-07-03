@@ -16,6 +16,7 @@ public class Player : MonoBehaviour
     Vector2 spawnPos;
     public AudioResource scaryMusic;
     public AudioSource Music, vines, jump, dash, collect, death;
+    public GameObject pauseMenu;
 
     void Awake()
     {
@@ -29,6 +30,7 @@ public class Player : MonoBehaviour
         Dash();
         Restarting();
         Animate();
+        Menu();
     }
 
     private void FixedUpdate()
@@ -139,6 +141,14 @@ public class Player : MonoBehaviour
         if (Keyboard.current.rKey.wasPressedThisFrame)
         {
             transform.position = spawnPos;
+        }
+    }
+
+    void Menu()
+    {
+        if (Keyboard.current.escapeKey.wasPressedThisFrame)
+        {
+            pauseMenu.SetActive(true);
         }
     }
 
