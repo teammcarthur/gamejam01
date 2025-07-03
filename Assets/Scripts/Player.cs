@@ -75,6 +75,7 @@ public class Player : MonoBehaviour
         
         if (Keyboard.current.spaceKey.isPressed && isGrounded)
         {
+            jump.Play();
             rb.linearVelocityY = 10;
             isGrounded = false;
             canDash = true;
@@ -192,6 +193,7 @@ public class Player : MonoBehaviour
             if (Music.resource != scaryMusic)
             {
                 Music.resource = scaryMusic;
+                Music.volume = 0.2f;
                 Music.Play();
             }
         }
