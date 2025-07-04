@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     Vector2 spawnPos;
     public AudioResource scaryMusic;
     public AudioSource Music, vines, jump, dash, collect, death;
-    public GameObject pauseMenu;
+    public GameObject pauseMenu, skybox;
 
     void Awake()
     {
@@ -203,6 +203,7 @@ public class Player : MonoBehaviour
                 jump.volume = 0.7f;
                 dash.pitch = 0.5f;
                 death.pitch = 0.5f;
+                skybox.SetActive(false);
                 Music.Play();
             }
         }
