@@ -25,12 +25,12 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        Menu();
         GetInput();
         Jump();
         Dash();
         Restarting();
         Animate();
-        Menu();
     }
 
     private void FixedUpdate()
